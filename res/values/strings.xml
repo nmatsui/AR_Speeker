@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, AR_SpeekerActivity!</string>
+    <string name="app_name">AR_Speeker</string>
+    <string name="loading">Now Loading Model...</string>
+</resources>
