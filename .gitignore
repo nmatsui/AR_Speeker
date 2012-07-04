@@ -6,6 +6,7 @@
 
 bin/
 gen/
+obj/
 
 local.properties
 .settings/

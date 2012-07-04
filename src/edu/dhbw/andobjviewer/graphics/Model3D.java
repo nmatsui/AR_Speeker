@@ -27,10 +27,8 @@ import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.opengl.GLDebugHelper;
 import android.opengl.GLUtils;
 import android.util.Log;
-
 import edu.dhbw.andar.ARObject;
 import edu.dhbw.andobjviewer.models.Group;
 import edu.dhbw.andobjviewer.models.Material;
