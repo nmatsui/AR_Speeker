@@ -13,9 +13,9 @@ import edu.dhbw.andobjviewer.parser.ParseException;
 import edu.dhbw.andobjviewer.util.AssetsFileUtil;
 import edu.dhbw.andobjviewer.util.BaseFileUtil;
 
-public class Porl extends Model3D {
-	private static final String MODEL_FILE = "Porl.obj";
-	private static final String MARKER = "Porl.patt";
+public class Elaine extends Model3D {
+	private static final String MODEL_FILE = "Elaine.obj";
+	private static final String MARKER = "Elaine.patt";
 	private static final double MARKER_WIDTH = 80.0;
 	private static final double[] MARKER_CENTER = new double[]{0,0};
 	private static final float SCALE = 3.0f;
@@ -23,7 +23,7 @@ public class Porl extends Model3D {
 	private static final long serialVersionUID = 1L;
 	private static Model model;
 
-	private Porl(Model model) {
+	private Elaine(Model model) {
 		super(model, MARKER, MARKER_WIDTH, MARKER_CENTER);
 	}
 
@@ -35,7 +35,7 @@ public class Porl extends Model3D {
 	public static Model3D getInstance(Resources resource) throws IOException, ParseException {
 		BaseFileUtil fileUtil = new AssetsFileUtil(resource.getAssets());
 
-		Porl porl = null;
+		Elaine elaine = null;
 
 		if (MODEL_FILE.endsWith(".obj")) {
 			ObjParser parser = new ObjParser(fileUtil);
@@ -43,10 +43,10 @@ public class Porl extends Model3D {
 				BufferedReader fileReader = fileUtil.getReaderFromName(MODEL_FILE);
 				if (fileReader != null) {
 					model = parser.parse("Model", fileReader);
-					porl = new Porl(model);
+					elaine = new Elaine(model);
 				}
 			}
 		}
-		return porl;
+		return elaine;
 	}
 }

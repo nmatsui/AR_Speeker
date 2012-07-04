@@ -49,8 +49,9 @@ public abstract class Model3D extends ARObject implements Serializable{
 	private Group[] nonTexturedGroups;
 	private HashMap<Material, Integer> textureIDs = new HashMap<Material, Integer>();
 	
-	public Model3D(Model model) {
-		super("model", "barcode.patt", 80.0, new double[]{0,0});
+	public Model3D(Model model, String patternName, double width, double[] center) {
+		//super("model", "barcode.patt", 80.0, new double[]{0,0});
+		super("model", patternName, width, center);
 		this.model = model;
 		model.finalize();
 		//separate texture from non textured groups for performance reasons
@@ -87,6 +88,7 @@ public abstract class Model3D extends ARObject implements Serializable{
 				gl.glTexParameterx(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR); 
 			}
 		}
+		
 		
 		//transfer vertices to video memory
 	}
