@@ -42,10 +42,10 @@ JNIEXPORT void JNICALL Java_edu_dhbw_andar_ARToolkit_artoolkit_1init__Ljava_lang
 /*
  * Class:     edu_dhbw_andar_ARToolkit
  * Method:    artoolkit_detectmarkers
- * Signature: ([BLjava/lang/Object;)I
+ * Signature: ([BLjava/lang/Object;[Ljava/lang/String;)I
  */
 JNIEXPORT jint JNICALL Java_edu_dhbw_andar_ARToolkit_artoolkit_1detectmarkers
-  (JNIEnv *, jobject, jbyteArray, jobject);
+  (JNIEnv *, jobject, jbyteArray, jobject, jobjectArray);
 
 /*
  * Class:     edu_dhbw_andar_ARToolkit

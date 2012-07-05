@@ -159,7 +159,7 @@ public class ARToolkit {
 	 * @param matrix the transformation matrix for each marker, will be locked right before the trans matrix will be altered
 	 * @return number of markers
 	 */
-	private native int artoolkit_detectmarkers(byte[] in, Object transMatMonitor);
+	private native int artoolkit_detectmarkers(byte[] in, Object transMatMonitor, String[] markerInfos);
 	
 	/**
 	 * Inverse a three by four matrix.
@@ -305,7 +305,14 @@ public class ARToolkit {
 				}
 				newFrame = false;
 				//the monitor is locked inside the method
-				int currNumMakers = artoolkit_detectmarkers(curFrame, transMatMonitor);
+				int max_marker = 16;
+				String[] markerInfos = new String[max_marker];
+				int currNumMakers = artoolkit_detectmarkers(curFrame, transMatMonitor, markerInfos);
+				for (String markerInfo : markerInfos) {
+					if (markerInfo != null) {
+						Log.i("AR_Speeker", "marker -> " + markerInfo);
+					}
+				}
 				if(lastNumMarkers > 0 && currNumMakers > 0) {
 					//visible
 				} else if(lastNumMarkers == 0 && currNumMakers > 0) {
@@ -339,7 +346,4 @@ public class ARToolkit {
 			}
 		}
 	}
-	
-	
-
 }

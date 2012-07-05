@@ -76,6 +76,8 @@ list_t objects;
 //A list of cached pattern IDs
 list_t* patternIDs = NULL;
 
+char str[64];
+
 //END DATASTRUCTURES
 
 /*
@@ -132,6 +134,24 @@ int getPatternIDFromList(const char *filename) {
 #endif
 	return id;
 }
+
+char *getPatternNameFromList(int id) {
+	char *buf;
+	if(patternIDs == NULL) {
+		return NULL;
+	}
+	list_iterator_start(patternIDs);
+	while (list_iterator_hasnext(patternIDs)) {
+		patternID * currPatt = (patternID *)list_iterator_next(patternIDs);
+		if(currPatt->id == id) {
+			buf = currPatt->filename;
+			break;
+		}
+	}
+	list_iterator_stop(patternIDs);
+	return buf;
+}
+
 
 /**
  * Do some basic initialization, like creating data structures.
@@ -350,16 +370,16 @@ JNIEXPORT void JNICALL Java_edu_dhbw_andar_ARToolkit_artoolkit_1init__Ljava_lang
  * Signature: ([B[D)I
  */
 JNIEXPORT jint JNICALL Java_edu_dhbw_andar_ARToolkit_artoolkit_1detectmarkers
-  (JNIEnv *env, jobject object, jbyteArray image, jobject transMatMonitor) {
+  (JNIEnv *env, jobject object, jbyteArray image, jobject transMatMonitor, jobjectArray markerInfos) {
+//JNIEXPORT jint JNICALL Java_edu_dhbw_andar_ARToolkit_artoolkit_1detectmarkers
+//  (JNIEnv *env, jobject object, jbyteArray image, jobject transMatMonitor) {
     ARUint8         *dataPtr;
     ARMarkerInfo    *marker_info;
     double 	    *matrixPtr;
     int             marker_num;
     int             j, k=-1;
 	Object* curObject;
-#ifdef DEBUG_LOGGING
 	int ii;
-#endif
 
     /* grab a vide frame */
     dataPtr = (*env)->GetByteArrayElements(env, image, JNI_FALSE);
@@ -377,11 +397,17 @@ JNIEXPORT jint JNICALL Java_edu_dhbw_andar_ARToolkit_artoolkit_1detectmarkers
    __android_log_print(ANDROID_LOG_INFO,"AR native","detected %d markers",marker_num);
 #endif
 
-#ifdef DEBUG_LOGGING
    for( ii = 0; ii < marker_num; ii++ ) {
-	   __android_log_print(ANDROID_LOG_WARN,"AR native","id=%d, pos[0]=%f pos[1]=%f", marker_info[ii].id, marker_info[ii].pos[0], marker_info[ii].pos[1]);
-   }
+	   if (marker_info[ii].id != -1 && marker_num < 16) { // jobjectArray has only 16 slot ("int max_marker = 16" in ARToolkit.java)
+		   memset(str, '\0', sizeof(str));
+		   sprintf(str, "id=%d:name=%s:pos[0]=%f:pos[1]=%f", marker_info[ii].id, getPatternNameFromList(marker_info[ii].id), marker_info[ii].pos[0], marker_info[ii].pos[1]);
+#ifdef DEBUG_LOGGING
+		   __android_log_print(ANDROID_LOG_INFO,"AR_Speeker","%s", str);
 #endif
+		   jstring jstr = (*env)->NewStringUTF(env, str);
+		   (*env)->SetObjectArrayElement(env, markerInfos, ii, jstr);
+	   }
+   }
 
     //lock the matrix
     /*(*env)->MonitorEnter(env, transMatMonitor);
