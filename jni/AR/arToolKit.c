@@ -23,7 +23,6 @@
  * license: GPL
  * This is the glue between the Java and the C part of AndAR.
  */
-
 //IMPORTS
 #include <GLES/gl.h>
 #include <stdio.h>
@@ -223,7 +222,7 @@ JNIEXPORT void JNICALL Java_edu_dhbw_andar_ARToolkit_addObject
 					(*env)->ThrowNew( env, exc, "could not read pattern file for object." );
 			} else {
 	#ifdef DEBUG_LOGGING
-			__android_log_print(ANDROID_LOG_INFO,"AR native","loaded marker with ID %d from file: %s", newObject->id, cPatternFile);
+			__android_log_print(ANDROID_LOG_WARN,"AR native","loaded marker with ID %d from file: %s", newObject->id, cPatternFile);
 	#endif
 				//add object to the list
 				list_append(&objects, newObject);
@@ -236,7 +235,7 @@ JNIEXPORT void JNICALL Java_edu_dhbw_andar_ARToolkit_addObject
 			}
 		} else {
 #ifdef DEBUG_LOGGING
-			__android_log_print(ANDROID_LOG_INFO,"AR native","loaded marker with ID %d from cached pattern ID", newObject->id, cPatternFile);
+			__android_log_print(ANDROID_LOG_WARN,"AR native","loaded marker with ID %d from cached pattern ID", newObject->id, cPatternFile);
 	#endif
 				//add object to the list
 				list_append(&objects, newObject);
@@ -358,6 +357,9 @@ JNIEXPORT jint JNICALL Java_edu_dhbw_andar_ARToolkit_artoolkit_1detectmarkers
     int             marker_num;
     int             j, k=-1;
 	Object* curObject;
+#ifdef DEBUG_LOGGING
+	int ii;
+#endif
 
     /* grab a vide frame */
     dataPtr = (*env)->GetByteArrayElements(env, image, JNI_FALSE);
@@ -375,6 +377,11 @@ JNIEXPORT jint JNICALL Java_edu_dhbw_andar_ARToolkit_artoolkit_1detectmarkers
    __android_log_print(ANDROID_LOG_INFO,"AR native","detected %d markers",marker_num);
 #endif
 
+#ifdef DEBUG_LOGGING
+   for( ii = 0; ii < marker_num; ii++ ) {
+	   __android_log_print(ANDROID_LOG_WARN,"AR native","id=%d, pos[0]=%f pos[1]=%f", marker_info[ii].id, marker_info[ii].pos[0], marker_info[ii].pos[1]);
+   }
+#endif
 
     //lock the matrix
     /*(*env)->MonitorEnter(env, transMatMonitor);
@@ -583,5 +590,3 @@ JNIEXPORT jint JNICALL Java_edu_dhbw_andar_ARToolkit_arUtilMatMul
 	(*env)->ReleaseDoubleArrayElements(env, result, resPtr, 0);
 	return retval;
   }
-
-

@@ -165,7 +165,7 @@ typedef struct {
 * \param x_coord x coordinate of the pixels of contours (size limited by AR_CHAIN_MAX).
 * \param y_coord y coordinate of the pixels of contours (size limited by AR_CHAIN_MAX).
 * \param vertex position of the vertices of the marker. (in observed screen coordinates)
-		 rem:the first vertex is stored again as the 5th entry in the array – for convenience of drawing a line-strip easier.
+		 rem:the first vertex is stored again as the 5th entry in the array for convenience of drawing a line-strip easier.
 * 
 */
 typedef struct {
@@ -194,8 +194,8 @@ extern int      arDebug;
 /**
  shall debug messages be printed to the android log
 */
-//#define DEBUG_LOGGING
-#undef DEBUG_LOGGING
+#define DEBUG_LOGGING
+//#undef DEBUG_LOGGING
 
 /** \var ARUint8 *arImage
 * \brief internal image
@@ -340,7 +340,7 @@ int arInitCparam( ARParam *param );
 * load the bitmap pattern specified in the file filename into the pattern
 * matching array for later use by the marker detection routines.
 * \param filename name of the file containing the pattern bitmap to be loaded
-* \return the identity number of the pattern loaded or –1 if the pattern load failed.
+* \return the identity number of the pattern loaded or if the pattern load failed.
 */
 int arLoadPatt( const char *filename );
 
