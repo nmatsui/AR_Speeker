@@ -23,11 +23,14 @@ package edu.dhbw.andar;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import jp.co.tis.stc.MarkerInfo;
 import android.content.res.Resources;
 import android.util.Log;
 import edu.dhbw.andar.exceptions.AndARException;
@@ -68,7 +71,11 @@ public class ARToolkit {
 	 */
 	private File baseFolder;
 	
-	
+	private final Map<Integer, MarkerInfo> markerInfos = new HashMap<Integer, MarkerInfo>();
+	public Map<Integer, MarkerInfo> getMarkerInfos() {
+		return markerInfos;
+	}
+
 	public ARToolkit(Resources res, File baseFile) {
 		artoolkit_init();
 		this.baseFolder = baseFile;
@@ -306,11 +313,13 @@ public class ARToolkit {
 				newFrame = false;
 				//the monitor is locked inside the method
 				int max_marker = 16;
-				String[] markerInfos = new String[max_marker];
-				int currNumMakers = artoolkit_detectmarkers(curFrame, transMatMonitor, markerInfos);
-				for (String markerInfo : markerInfos) {
-					if (markerInfo != null) {
-						Log.i("AR_Speeker", "marker -> " + markerInfo);
+				String[] markerStrings = new String[max_marker];
+				int currNumMakers = artoolkit_detectmarkers(curFrame, transMatMonitor, markerStrings);
+				markerInfos.clear();
+				for (String markerStr : markerStrings) {
+					if (markerStr != null) {
+						MarkerInfo m = new MarkerInfo(markerStr);
+						markerInfos.put(m.getId(), m);
 					}
 				}
 				if(lastNumMarkers > 0 && currNumMakers > 0) {

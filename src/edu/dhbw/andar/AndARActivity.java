@@ -43,7 +43,7 @@ import edu.dhbw.andar.util.IO;
 
 public abstract class AndARActivity extends Activity implements Callback, UncaughtExceptionHandler{
 	private GLSurfaceView glSurfaceView;
-	private Camera camera;
+	protected Camera camera;
 	private AndARRenderer renderer;
 	private Resources res;
 	private CameraPreviewHandler cameraHandler;
