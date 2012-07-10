@@ -11,6 +11,12 @@ AndARはr205を想定しています。
 
 またサンプルのモデルとして、[BLEND SWAP](http://www.blendswap.com/)にてCC0ライセンスで公開されている[CARTOON CHARACTER PACK 1](http://www.blendswap.com/blends/characters/cartoon-character-pack-1/)をwavefront形式に変換したものを利用しています。
 
+注意
+----
+
+音声ファイルは別途準備してください。
+res/rawに音声ファイルを配置し、リソースIDをPlayerの第四引数に与える必要があります
+
 License
 -------
 Copyright(C) 2012 Nobuyuki Matsui (nobuyuki.matsui@gmail.com)
