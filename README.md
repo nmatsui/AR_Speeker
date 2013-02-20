@@ -1,6 +1,9 @@
 AR_Speeker
 ==========
 
+改良版が下記リポジトリにあります。Please see below repository.
+https://github.com/tech-sketch/AR_Speaker
+
 [AndAR](http://code.google.com/p/andar/)及びAndARModelViewerをベースに、以下の改造を加えています。
 
 * 3Dモデルごとにマーカー画像を定義できるようにした
